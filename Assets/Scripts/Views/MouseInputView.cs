@@ -3,21 +3,21 @@ using System.Collections;
 using UnityEngine;
 using strange.extensions.mediation.impl;
 
-public class MouseInput : IInput
+public class MouseInputView : IInput
 {
     [Inject]
-    public IRoutineRunner routinerunner { get; set; }
+    public IRoutineRunner routineRunner { get; set; }
 
     [Inject]
-    public MouseClickSignal mc_signal { get; private set; }
+    public MouseClickSignal mClick_signal { get; private set; }
     [Inject]
-    public MouseReleaseSignal mr_signal { get; private set; }
+    public MouseReleaseSignal mRelease_signal { get; private set; }
 
 
     [PostConstruct]
     public void PostConstruct()
     {
-        routinerunner.Execute(update());
+        routineRunner.Execute(update());
     }
 
     public void Init()
@@ -30,10 +30,10 @@ public class MouseInput : IInput
         while (true)
         {
             if (Input.GetMouseButton(0))
-                mc_signal.Dispatch();
+                mClick_signal.Dispatch();
 
             if (Input.GetMouseButtonUp(0))
-                mr_signal.Dispatch();
+                mRelease_signal.Dispatch();
 
             yield return null;
         }

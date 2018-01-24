@@ -4,6 +4,5 @@ using UnityEngine;
 
 public class ShapesModel
 {
-    public int count;
-    public GameObject[] shape;
+    public GameObject[] shapes;
 }

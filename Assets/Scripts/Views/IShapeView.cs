@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TraysModel
+public interface IShapeView
 {
-    public GameObject[] trays;
+    void Init();
 }

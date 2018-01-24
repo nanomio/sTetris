@@ -1,6 +1,10 @@
-﻿public interface ITrayView
+﻿using UnityEngine;
+
+public interface ITrayView
 {
     void Init();
-    void SpawnShape();
+    void ShapeSpawn(GameObject parent);
+    void ShapeMove(int number);
+    void ShapeDrop();
     void CheckClick();
 }

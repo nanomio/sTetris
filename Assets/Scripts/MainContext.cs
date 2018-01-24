@@ -14,15 +14,19 @@ public class MainContext : SignalContext
         base.mapBindings();
 
         injectionBinder.Bind<IRoutineRunner>().To<RoutineRunner>().ToSingleton();
-        injectionBinder.Bind<IInput>().To<MouseInput>().ToSingleton();
+        injectionBinder.Bind<IInput>().To<MouseInputView>().ToSingleton();
+
+        injectionBinder.Bind<IShapeView>().To<ShapeView>();
         injectionBinder.Bind<ITrayView>().To<Tray3DView>();
 
         injectionBinder.Bind<MainModel>().ToSingleton();
         injectionBinder.Bind<ShapesModel>().ToSingleton();
+        injectionBinder.Bind<TraysModel>().ToSingleton();
 
         commandBinder.Bind<AppStartSignal>().To<AppStartCommand>().Once();
         commandBinder.Bind<MouseClickSignal>().To<MouseClickCommand>();
         commandBinder.Bind<MouseReleaseSignal>().To<MouseReleaseCommand>();
+        commandBinder.Bind<TrayHitSignal>().To<TrayHitCommand>();
 
     }
 }
