@@ -5,4 +5,5 @@ using UnityEngine;
 public class TraysModel
 {
     public GameObject[] trays;
+    public int shapesLeft;
 }

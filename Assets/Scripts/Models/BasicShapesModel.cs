@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShapesModel
+public class BasicShapesModel
 {
     public GameObject[] shapes;
 }

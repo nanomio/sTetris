@@ -14,22 +14,20 @@ public class Tray3DView : ITrayView
     public TraysModel mTrays { get; set; }
 
     [Inject]
-    public ShapesModel mShapes { get; set; }
+    public IShapeView shapes { get; set; }
 
     [Inject]
     public TrayHitSignal hitSignal { get; set; }
 
-    private int spawnShapesCounter;
-
     public void Init()
     {
-        spawnShapesCounter = 0;
+        int spawnShapesCounter = 0;
 
         GameObject[] initedTrays = GameObject.FindGameObjectsWithTag("Tray");
 
         if (initedTrays == null)
         {
-            Debug.Log("Inited..................................................... 0 trays");
+            Debug.LogError("Inited..................................................... 0 trays");
             return;
         }
 
@@ -39,63 +37,44 @@ public class Tray3DView : ITrayView
         foreach (GameObject tray in initedTrays)
         {
             mTrays.trays[TrayNumber(tray.name) - 1] = tray;
-            ShapeSpawn(tray);
+            if (shapes.Spawn(tray) != null)
+                spawnShapesCounter++;
         }
 
         Debug.Log("Spawned.............................................. " + spawnShapesCounter + " shapes");
-    }
 
-    public void ShapeSpawn(GameObject parent)
-    {
-        if (mShapes.shapes == null)
-        {
-            Debug.Log("No shapes loaded!");
-            return;
-        }
-        int randomNumber = UnityEngine.Random.Range(0, mShapes.shapes.Length);
-
-        GameObject tmp = GameObject.Instantiate(mShapes.shapes[randomNumber], parent.transform) as GameObject;
-
-        if (tmp != null)
-            spawnShapesCounter++;
-    }
-
-    public void ShapeMove(int number)
-    {
-        routineRunner.Execute(MoveRoutine(number));
-    }
-
-    public void ShapeDrop()
-    {
+        mTrays.shapesLeft = spawnShapesCounter;
     }
 
     public void CheckClick()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        Debug.Log("Mouse position: " + Input.mousePosition);
-
         RaycastHit hitInfo = new RaycastHit();
         Physics.Raycast(ray, out hitInfo, Mathf.Infinity);
 
         if (hitInfo.collider != null)
         {
-            hitSignal.Dispatch(TrayNumber(hitInfo.collider.gameObject.name) - 1);
+            hitSignal.Dispatch(hitInfo.collider.gameObject);
         }
         else
             Debug.Log("No hit");
     }
 
-    protected IEnumerator MoveRoutine(int number)
+    public void SpawnAll()
     {
-        GameObject movingShape = mTrays.trays[number].transform.GetChild(0).gameObject;
+        int spawnShapesCounter = 0;
 
-        while (mModel.MouseState)
+        foreach (GameObject tray in mTrays.trays)
         {
-            movingShape.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1.0f));
-
-            yield return null;
+            if (shapes.Spawn(tray) != null)
+                spawnShapesCounter++;
         }
+
+        Debug.Log("Spawned.......................................... " + spawnShapesCounter + " new shapes");
+
+        mTrays.shapesLeft = spawnShapesCounter;
+
     }
 
     protected int TrayNumber(string name)

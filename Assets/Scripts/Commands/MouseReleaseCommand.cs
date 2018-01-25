@@ -7,17 +7,20 @@ public class MouseReleaseCommand : Command
 {
 
     [Inject]
-    public MainModel model { get; set; }
+    public MainModel mMain { get; private set; }
 
     [Inject]
-    public ITrayView trayView { get; private set; }
+    public IBoardView Board { get; private set; }
+    [Inject]
+    public IShapeView Shape { get; private set; }
 
     public override void Execute()
     {
         Debug.Log("=>> left MB released");
-        model.MouseState = false;
+        mMain.MouseState = false;
 
-        trayView.ShapeDrop();
+        Shape.Snap();
+        //Board.CheckPlace();
     }
 
 }

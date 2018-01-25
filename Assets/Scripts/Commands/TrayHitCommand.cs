@@ -4,16 +4,26 @@ using UnityEngine;
 public class TrayHitCommand : Command
 {
     [Inject]
-    public int trayNumber { get; private set; }
+    public object tray { get; private set; }
 
     [Inject]
-    public ITrayView trayView { get; private set; }
+    public IShapeView Shape { get; set; }
 
     public override void Execute()
     {
-        Debug.Log("Tray " + (trayNumber + 1) + " hited. Start dragging.");
+        //Debug.Log("Tray " + (trayNumber + 1) + " hited. Start dragging.");
 
-        trayView.ShapeMove(trayNumber);
+        if (tray != null)
+        {
+            GameObject tmp = tray as GameObject;
+
+            if (tmp.transform.childCount > 0)
+            {
+                tmp = tmp.transform.GetChild(0).gameObject;
+                Shape.Move(tmp);
+            }
+        }
+
     }
 
 }

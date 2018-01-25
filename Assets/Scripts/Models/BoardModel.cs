@@ -1,16 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class BoardModel : MonoBehaviour {
+public class BoardModel
+{
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public const float gridStep = .55f;
+    public Quaternion bounds;
+
+    public GameObject gameBoard;
+
+    public GameObject checkerHorizontal;
+    public GameObject checkerVertical;
+
 }

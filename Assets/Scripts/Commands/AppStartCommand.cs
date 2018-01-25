@@ -5,21 +5,26 @@ public class AppStartCommand : Command
 {
 
     [Inject]
-    public IInput input { get; private set; }
+    public IInput Input { get; private set; }
 
     [Inject]
-    public ITrayView trays { get; private set; }
+    public IBoardView Board { get; private set; }
 
     [Inject]
-    public IShapeView shapes { get; private set; }
+    public ITrayView Trays { get; private set; }
+
+    [Inject]
+    public IShapeView Shapes { get; private set; }
 
     public override void Execute()
     {
         Debug.Log("----------------> Initialization start <----------------");
 
-        input.Init();
-        shapes.Init();
-        trays.Init();
+        Board.Init();
+        Shapes.Init();
+        Trays.Init();
+
+        Input.Init();
 
         Debug.Log("----------------> Initialization end <------------------");
     }

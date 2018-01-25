@@ -22,7 +22,7 @@ public class MouseInputView : IInput
 
     public void Init()
     {
-        Debug.Log("Mouse input inited.");
+        Debug.Log("Mouse input................................................inited");
     }
 
     protected IEnumerator update()
